@@ -12,7 +12,7 @@ export const SearchBooksPage = () => {
         const fetchBooks = async () => {
             const baseUrl: string = "http://localhost:8080/api/books";
 
-            const url: string = `${baseUrl}?page=0&size=5`;
+            const url: string = `${baseUrl}?page=0&size=5`; // Spring Data REST has pagination support our of the box. parameters: page (deafult = 0), size (default = 20).
 
             const response = await fetch(url);
 
