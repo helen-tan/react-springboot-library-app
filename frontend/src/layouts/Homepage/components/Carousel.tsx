@@ -3,7 +3,7 @@ import { ReturnBook } from './ReturnBook'
 import BookModel from '../../../models/BookModel'
 
 export const Carousel = () => {
-    const [book, setBooks] = useState<BookModel[]>([]);
+    const [books, setBooks] = useState<BookModel[]>([]);
     const [loading, setLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
 
@@ -29,7 +29,8 @@ export const Carousel = () => {
                 loadedBooks.push({
                     id: responseData[key].id,
                     title: responseData[key].title,
-                    author: responseData[key].description,
+                    author: responseData[key].author,
+                    description: responseData[key].description,
                     copies: responseData[key].copies,
                     copiesAvailable: responseData[key].copiesAvailable,
                     category: responseData[key].category,
@@ -73,25 +74,25 @@ export const Carousel = () => {
                 <div className="carousel-inner">
                     <div className="carousel-item active">
                         <div className="row d-flex justify-content-center align-items-center">
-                            <ReturnBook />
-                            <ReturnBook />
-                            <ReturnBook />
+                            {books.slice(0, 3).map(book => (
+                                <ReturnBook book={book} key={book.id} />
+                            ))}
                         </div>
                     </div>
 
                     <div className="carousel-item">
                         <div className="row d-flex justify-content-center align-items-center">
-                            <ReturnBook />
-                            <ReturnBook />
-                            <ReturnBook />
+                            {books.slice(3, 6).map(book => (
+                                <ReturnBook book={book} key={book.id} />
+                            ))}
                         </div>
                     </div>
 
                     <div className="carousel-item">
                         <div className="row d-flex justify-content-center align-items-center">
-                            <ReturnBook />
-                            <ReturnBook />
-                            <ReturnBook />
+                            {books.slice(6, 9).map(book => (
+                                <ReturnBook book={book} key={book.id} />
+                            ))}
                         </div>
                     </div>
 
@@ -109,7 +110,7 @@ export const Carousel = () => {
                 {/* Mobile */}
                 <div className='d-lg-none mt-3'>
                     <div className="row d-flex justify-content-center align-items-center">
-                        <ReturnBook />
+                        <ReturnBook book={books[7]} key={books[7].id}/>
                     </div>
                 </div>
 
