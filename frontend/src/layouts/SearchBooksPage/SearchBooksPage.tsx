@@ -8,16 +8,28 @@ export const SearchBooksPage = () => {
     const [books, setBooks] = useState<BookModel[]>([]);
     const [loading, setLoading] = useState(true);
     const [httpError, setHttpError] = useState(null);
+
+    // Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [booksPerPage] = useState(5)
     const [totalAmountOfBooks, setTotalAmountOfBooks] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
 
+    const [search, setSearch] = useState("");
+    const [searchUrl, setSearchUrl] = useState("")
+
     useEffect(() => {
         const fetchBooks = async () => {
             const baseUrl: string = "http://localhost:8080/api/books";
 
-            const url: string = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`; // Spring Data REST has pagination support our of the box. parameters: page (deafult = 0), size (default = 20).
+            let url: string = "";
+
+            // Determine search Url to decide which books to show
+            if (searchUrl == "") {
+                url = `${baseUrl}?page=${currentPage - 1}&size=${booksPerPage}`; // Spring Data REST has pagination support our of the box. parameters: page (deafult = 0), size (default = 20).
+            } else {
+                url = baseUrl + searchUrl;
+            }
 
             const response = await fetch(url);
 
@@ -56,8 +68,10 @@ export const SearchBooksPage = () => {
             setHttpError(error.message)
         })
 
-        window.scrollTo(0,0); // Scroll to top each time pagination page changes
-    }, [currentPage]) // When currentPage changes, reload the component
+        window.scrollTo(0, 0); // Scroll to top each time pagination page changes
+    }, [currentPage, searchUrl])
+    // Reload the component, when currentPage changes
+    // Reload component when searchUrl changes (trying to search for a book)
 
     if (loading) {
         return (
@@ -71,6 +85,15 @@ export const SearchBooksPage = () => {
                 <p>{httpError}</p>
             </div>
         )
+    }
+
+    // Handle Search
+    const searchHandleChange = () => {
+        if (search === "") {
+            setSearchUrl("")
+        } else {
+            setSearchUrl(`/search/findByTitleContaining?title=${search}&page=0&size=${booksPerPage}`);
+        }
     }
 
     const indexOfLastBook: number = currentPage * booksPerPage;
@@ -87,8 +110,10 @@ export const SearchBooksPage = () => {
                     <div className='row mt-5'>
                         <div className="col-6">
                             <div className="d-flex">
-                                <input type="search" className='form-control me-2' placeholder='Search' aria-labelledby='Search' />
-                                <button className='btn btn-outline-success'>
+                                <input type="search" className='form-control me-2' placeholder='Search' aria-labelledby='Search'
+                                    onChange={e => setSearch(e.target.value)}
+                                />
+                                <button onClick={() => searchHandleChange()} className='btn btn-outline-success'>
                                     Search
                                 </button>
                             </div>
