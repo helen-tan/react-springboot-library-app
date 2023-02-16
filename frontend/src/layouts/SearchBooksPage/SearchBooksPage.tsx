@@ -55,7 +55,9 @@ export const SearchBooksPage = () => {
             setLoading(false);
             setHttpError(error.message)
         })
-    }, [currentPage]) // When currentPAge changes, reload the component
+
+        window.scrollTo(0,0); // Scroll to top each time pagination page changes
+    }, [currentPage]) // When currentPage changes, reload the component
 
     if (loading) {
         return (
