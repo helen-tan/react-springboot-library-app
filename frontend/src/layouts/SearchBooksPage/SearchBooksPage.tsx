@@ -55,7 +55,7 @@ export const SearchBooksPage = () => {
             setLoading(false);
             setHttpError(error.message)
         })
-    }, [])
+    }, [currentPage]) // When currentPAge changes, reload the component
 
     if (loading) {
         return (
