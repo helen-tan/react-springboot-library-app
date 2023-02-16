@@ -48,13 +48,16 @@ export const Pagination: React.FC<{
                     <li key={number} onClick={() => props.paginate(number)}
                         className={"page-item" + (props.currentPage === number ? 'active' : '')}
                     >
-                        <button className='page-item' onClick={() => props.paginate(props.totalPages)}>
-                            <button className='page-link'>
-                                Last Page
-                            </button>
+                        <button className='page-link'>
+                            {number}
                         </button>
                     </li>
                 ))}
+                <li className='page-item' onClick={() => props.paginate(props.totalPages)}>
+                    <button className='page-link'>
+                        Last Page
+                    </button>
+                </li>
             </ul>
 
         </nav>
