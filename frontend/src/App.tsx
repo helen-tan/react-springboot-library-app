@@ -10,15 +10,19 @@ import { Navigate, Route, Routes } from 'react-router';
 export const App = () => {
   return (
     <BrowserRouter>
-      <Navbar />
-      
-      <Routes>
-      <Route path="/" element={<Navigate to="/home" />} /> {/*Redirect to homepage for this route*/}
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/search" element={<SearchBooksPage />} />
-      </Routes>
+      <div className='d-flex flex-column min-vh-100'> {/* Sticky Footer */}
+        <Navbar />
 
-      <Footer />
+        <div className='flex-grow-1'>
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" />} /> {/*Redirect to homepage for this route*/}
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/search" element={<SearchBooksPage />} />
+          </Routes>
+        </div>
+
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }
