@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import ReviewModel from '../../models/ReviewModel'
+import { Review } from '../utils/Review'
 
 export const LatestReviews: React.FC<{
     reviews: ReviewModel[],
@@ -16,7 +17,7 @@ export const LatestReviews: React.FC<{
                 {props.reviews.length > 0 ?
                     <>
                         {props.reviews.slice(0, 3).map(review => (
-                            <div>A review</div>
+                            <Review review={review} key={review.id}/>
                         ))}
                         <div className="m-3">
                             <Link to='#' type='button' className='btn main-color btn-md text-white'>

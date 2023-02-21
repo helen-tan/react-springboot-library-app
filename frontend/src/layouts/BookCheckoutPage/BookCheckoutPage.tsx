@@ -4,6 +4,7 @@ import ReviewModel from '../../models/ReviewModel';
 import { Spinner } from '../utils/Spinner';
 import { StarsReview } from '../utils/StarsReview';
 import { CheckoutAndReviewBox } from './CheckoutAndReviewBox';
+import { LatestReviews } from './LatestReviews';
 
 export const BookCheckoutPage = () => {
     const [book, setBook] = useState<BookModel>();
@@ -52,10 +53,10 @@ export const BookCheckoutPage = () => {
 
     useEffect(() => {
         const fetchBookReviews = async () => {
-            const reviewUrl: string = `http://localhost:8080/api/reviews/findByBookId?bookId=${bookId}`;
+            const reviewUrl: string = `http://localhost:8080/api/reviews/search/findBookById?bookId=${bookId}`;
 
             const responseReviews = await fetch(reviewUrl);
-
+        
             if (!responseReviews.ok) {
                 throw new Error('Something went wrong!');
             }
@@ -133,6 +134,7 @@ export const BookCheckoutPage = () => {
                     <CheckoutAndReviewBox book={book} mobile={false} />
                 </div>
                 <hr />
+                <LatestReviews reviews={reviews} bookId={book?.id} mobile={false}/>
             </div>
 
             <div className='container d-lg-none mt-5'>
@@ -156,6 +158,8 @@ export const BookCheckoutPage = () => {
                 <CheckoutAndReviewBox book={book} mobile={true}/>
 
                 <hr/>
+
+                <LatestReviews reviews={reviews} bookId={book?.id} mobile={true}/>
             </div>
         </div>
     )
